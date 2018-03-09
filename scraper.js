@@ -1,10 +1,27 @@
 var google = require('google')
+const program = require('commander');
+
+program
+  .version('0.1.0')
+  .option('-q, --question <answer>', 'The question to query')
+  .option('-a, --answerA <answer>', 'Answer A')
+  .option('-b, --answerB <answer>', 'Answer B')
+  .option('-c, --answerC <answer>', 'Answer C')
+  .option('-d, --answerD <answer>', 'Answer D')
+  .parse(process.argv);
 
 google.resultsPerPage = 1
 const nextCounter = 0
 const pages = 4;
-const question = 'Michal jordans middle name';
-const answers = ['jeffrey', 'bob', 'bil'];
+
+const question = program.question;
+const answers = [program.answerA]
+  .concat(program.answerB || [])
+  .concat(program.answerC || [])
+  .concat(program.answerD || [])
+
+console.log('question', question);
+console.log('answers', answers);
 
 async function whichAnswerHasMostResults() {
 }
@@ -29,7 +46,7 @@ async function whichAnswerShowsUpMost(pagesToSearch) {
 				  f(count);
 				});
 			})
-			
+
 		})
 	);
 	console.log('resultsPerAnswer', resultsPerAnswer);
@@ -38,7 +55,7 @@ async function whichAnswerShowsUpMost(pagesToSearch) {
 
 async function findMostProbableAnswer() {
 	const res1 = await whichAnswerShowsUpMost();
-	console.log('res1', answers[res1]);
+	console.log('ANSWER', answers[res1]);
 }
 
 findMostProbableAnswer();
