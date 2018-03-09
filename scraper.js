@@ -36,13 +36,11 @@ async function whichAnswerShowsUpMost(pagesToSearch) {
 		answers.map(async a => {
 			return new Promise((f, r) => {
 				google(question, function (err, res){
-					console.log('a', a);
 				  if (err) console.error(err);
 					var count = res.links.reduce((sum, l) => {
 						return sum + occurrences(l.description, a, false);
 					}, 0);
 
-					console.log(count);
 				  f(count);
 				});
 			})
